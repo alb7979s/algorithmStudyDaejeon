@@ -16,3 +16,4 @@
 
 코드 공유 github으로 ?
 
+ git pull origin master
