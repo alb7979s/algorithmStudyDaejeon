@@ -1,8 +1,8 @@
 import sys
 sys.stdin = open('17136_input.txt')
 
-# cnt : 사용한 색종이 수, raw에서 남은 1의 수
-def dfs(cnt, t):
+# cnt : 사용한 색종이 수, raw 에서 남은 1의 수, 시작 행 넘겨주면서 최적화
+def dfs(cnt, t, start):
     global min_count
     # 색종이로 다 덮었을 때, 최소 사용 갯수 갱신
     if t == 0:
@@ -16,7 +16,7 @@ def dfs(cnt, t):
         return
     else:
         # 색종이 붙이기
-        for i in range(10):
+        for i in range(start, 10):
             for j in range(10):
                 if raw[i][j] == 1 and visited[i][j] == 0:
                     # 5*5 사이즈부터 1*1 사이즈 순으로 붙여보기
@@ -24,7 +24,7 @@ def dfs(cnt, t):
                         # 범위 넘어가지 않고
                         if not (i+size <= N and j+size <= N):
                             continue
-                        # 종이 붙일 수 있고
+                        # 붙일 수 있는 종이 남아 있으면
                         if paper[size] > 0:
                             cover = 0
                             for r in range(i, i+size):
@@ -37,7 +37,7 @@ def dfs(cnt, t):
                                     for c in range(j, j+size):
                                         visited[r][c] = 1
                                 paper[size] -= 1
-                                dfs(cnt + 1, t - size * size)
+                                dfs(cnt + 1, t - size * size, i)
                                 paper[size] += 1
                                 for r in range(i, i+size):
                                     for c in range(j, j+size):
@@ -55,7 +55,7 @@ for i in range(N):
     for j in range(N):
         if raw[i][j]:
             temp += 1
-dfs(0, temp)
+dfs(0, temp, 0)
 if min_count == float('inf'):
     min_count = -1
 
