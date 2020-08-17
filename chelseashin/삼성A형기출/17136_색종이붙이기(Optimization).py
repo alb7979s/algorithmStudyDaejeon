@@ -1,16 +1,13 @@
 import sys
 sys.stdin = open('17136_input.txt')
 
+# 색종이 붙일 수 있는 곳인지 확인
 def attach_paper(sr, sc, size):
-    # 범위 넘어가지 않고
-    # 붙일 수 있는 종이 남아 있으면
-    cover = 0
-    if paper[size] > 0 and (sr + size <= N and sc + size <= N):
-        for r in range(sr, sr + size):
-            for c in range(sc, sc + size):
-                if visited[r][c] == 0:
-                    cover += raw[r][c]
-    return cover
+    for r in range(sr, sr + size):
+        for c in range(sc, sc + size):
+            if visited[r][c] == 1 or raw[r][c] == 0:
+                return False
+    return True
 
 # cnt : 사용한 색종이 수, raw 에서 남은 1의 수
 def dfs(cnt, t, start):
@@ -30,11 +27,14 @@ def dfs(cnt, t, start):
         # 색종이 붙이기
         for i in range(start, 10):
             for j in range(10):
-                if raw[i][j] == 1 and visited[i][j] == 0:
-                    # 5*5 사이즈부터 1*1 사이즈 순으로 붙여보기
-                    for size in range(5, 0, -1):
-                        # 덮이면
-                        if attach_paper(i, j, size) == size * size:
+                if not raw[i][j] or visited[i][j]:
+                    continue
+                # 5*5 사이즈부터 1*1 사이즈 순으로 붙여보기
+                for size in range(5, 0, -1):
+                    # 범위 넘어가지 않고, 붙일 수 있는 종이 남아 있으면
+                    if paper[size] > 0 and (i + size <= N and j + size <= N):
+                        # 색종이 붙일 수 있으면 재귀로 붙였다 떼기
+                        if attach_paper(i, j, size):
                             for r in range(i, i+size):
                                 for c in range(j, j+size):
                                     visited[r][c] = 1
@@ -44,8 +44,8 @@ def dfs(cnt, t, start):
                             for r in range(i, i+size):
                                 for c in range(j, j+size):
                                     visited[r][c] = 0
-                    return
-
+                return
+# main
 N = 10
 raw = [list(map(int, input().split())) for _ in range(N)]
 visited = [[0] * 10 for _ in range(10)]
