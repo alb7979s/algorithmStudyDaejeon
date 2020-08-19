@@ -72,7 +72,7 @@ def rotate(Q):
                     er -= 1
                     ec -= 1
                     break
-        # print(A)  # 돌렸을 때 상태 확인
+    # print(A)  # 돌렸을 때 상태 확인
     check(A)
     return
 

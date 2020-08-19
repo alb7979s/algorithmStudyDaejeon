@@ -54,6 +54,7 @@ def dfs(depth):
     if depth == N:
         if sum(divided) == 0 or sum(divided) == N:
             return
+        print(divided)
         if bfs():       # 구역 나누기 가능하면
             A = 0
             for i in range(N):
