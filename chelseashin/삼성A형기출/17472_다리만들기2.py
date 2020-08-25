@@ -35,7 +35,7 @@ def dfs(r, c, dir, bridge_dis, start):
     nc = c + dc[dir]
     if not 0 <= nr < N or not 0 <= nc < M:
         return
-    if sea[nr][nc] == 1:
+    if sea[nr][nc]:
         end = isl_num_map[nr][nc]   # 도착 섬의 번호
         if start == end:            # 자기 자신 섬이면 return
             return

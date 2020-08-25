@@ -61,9 +61,7 @@ def rotate(Q):
                 if not (sr <= nr <= er and sc <= nc <= ec):  # 범위 벗어나면
                     dir += 1    # 방향 바꾸기
                     continue
-                temp = A[nr][nc]
-                A[nr][nc] = before
-                before = temp
+                before, A[nr][nc] = A[nr][nc], before
                 r, c = nr, nc
                 # 한 바퀴 돌아서 시작점까지 왔을 때
                 if r == sr and c == sc:
