@@ -1,22 +1,8 @@
 from collections import*
 U, R, D, L = 1, 2, 4, 8
 dd = [(-1,0), (0,1), (1,0), (0,-1)] #집합일땐 (1<<i), 그냥 방향 참조땐 i
-IN = [0,          #입구
-      U|R|D|L,    #1
-      U|D,        #2
-      L|R,        #3
-      D|L,        #4
-      L|U,        #5
-      R|U,        #6
-      R|D]        #7
-OUT = [0,         #출구
-       U|R|D|L,
-       U|D,
-       L|R,
-       U|R,
-       R|D,
-       L|D,
-       U|L]
+IN = [0, U|R|D|L, U|D, L|R, D|L, L|U, R|U, R|D]     #입구      
+OUT = [0, U|R|D|L, U|D, L|R, U|R, R|D, L|D, U|L]    #출구
 for tc in range(int(input())):
     n, m, r, c, l = map(int,input().split())
     a = [list(map(int,input().split()))for _ in range(n)]
