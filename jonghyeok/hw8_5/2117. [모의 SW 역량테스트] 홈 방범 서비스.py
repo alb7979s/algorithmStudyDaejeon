@@ -1,6 +1,6 @@
-import sys
+#import sys
 # sys.stdin = open('C:/projects/mysite/algorithms/test.txt')
-# from collections import*
+from collections import*
 #BFS모양으로 퍼짐
 #운영비용 = k**2+(k-1)**2
 #손해 보지 않게 가장 많이 서비스 제공하는 집의 수
