@@ -16,7 +16,6 @@ void init()
 	//memset(raw, 0, sizeof(raw));
 	//memset(cell, 0, sizeof(cell));
 	memset(selected, 0, sizeof(selected));
-	minCnt = 987654321;
 }
 
 void input()
@@ -30,6 +29,7 @@ void input()
 		}
 	}
 	memcpy(cell, raw, sizeof(raw));
+	minCnt = K;
 }
 
 bool checkValid()
@@ -86,7 +86,7 @@ void dfs(int idx, int cnt)
 	{
 		return;
 	}
-	
+
 	if (checkValid())
 	{
 		minCnt = min(minCnt, cnt);
