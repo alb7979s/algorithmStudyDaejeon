@@ -2,7 +2,7 @@ import sys
 sys.stdin = open('2112_input.txt')
 
 # 성능 테스트
-def check(F):
+def test(F):
     check = 0
     for c in range(W):
         cnt = 1
@@ -16,31 +16,28 @@ def check(F):
             if cnt >= K:
                 check += 1
                 break
-        if (c + 1) != check:
+        if (c+1) != check:
             return False
     return True
 
-# 약물 투입 횟수, 시작 행 위치
-def dfs(depth, pos):
+# 현재 약물 투입 횟수, 시작 행 위치, 최대 투입 횟수
+def dfs(depth, pos, K):
     global MIN
     if depth >= MIN:    # 가지치기
         return
-    # 약물 투여 최대 횟수 넘으면 return
-    # if depth > K:       # 없어도 pass 되긴 함
-    #     return
-    for i in range(pos, D):     # 행 선택
-        visited[i] = 1
+    if depth == K:
+        if test(film):
+            MIN = min(MIN, depth)
+        return
+    for i in range(pos, D):     # 약물 투입할 행 선택
         for j in range(2):
-            film[i] = drug[j]
-            if check(film):
-                MIN = min(MIN, depth)
-                visited[i] = 0
-                film[i] = raw[i]
-                return
-            else:
-                dfs(depth+1, i+1)
-        visited[i] = 0
-        film[i] = raw[i]
+            if selected[i]:
+                continue
+            selected[i] = 1
+            film[i] = drug[j]   # 약품 투입
+            dfs(depth+1, i+1, K)
+            film[i] = raw[i]    # 복원
+            selected[i] = 0
 
 # main
 T = int(input())
@@ -49,11 +46,13 @@ for tc in range(T):
     raw = [list(map(int, input().split())) for _ in range(D)]
     film = [r[:] for r in raw]
     drug = [[0] * W, [1] * W]
-    visited = [0] * D
+    selected = [0] * D
     MIN = float('inf')
-    if check(film) or K <= 1:
+
+    if test(film):
         MIN = 0
     else:
-        dfs(1, 0)
+        for i in range(1, K+1):  # 약물 투여 최대 횟수 K까지 할 수 있음
+            dfs(0, 0, i)
 
     print("#{} {}".format(tc + 1, MIN))
