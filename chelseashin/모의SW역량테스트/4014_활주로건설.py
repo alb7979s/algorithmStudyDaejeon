@@ -29,6 +29,8 @@ for tc in range(T):
     N, X = map(int, input().split())
     A = [list(map(int, input().split())) for _ in range(N)]
     B = list(map(list, zip(*A)))    # 세로 검사
+    # B = list(zip(*A))
+
     ans = 0
     for n in range(N):
         check_slope(A[n])
