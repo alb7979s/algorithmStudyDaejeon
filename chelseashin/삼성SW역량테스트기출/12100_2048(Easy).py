@@ -11,11 +11,6 @@ B = [list(map(int, input().split())) for _ in range(N)]
 ans = 0
 Q = deque()
 
-def get(i, j):
-    if B[i][j]:
-        Q.append(B[i][j])
-        B[i][j] = 0     # Q에 넣은 블록은 0으로 바꿔주기
-
 # 시작 좌표, 합치는 방향
 def merge(r, c, dr, dc):
     while Q:
@@ -36,25 +31,33 @@ def move(dir):
     if dir == 0:
         for j in range(N):
             for i in range(N):
-                get(i, j)
-            merge(0, j, 1, 0)   # row 인덱스 1씩 증가하면서 아래쪽 블락들을 합침
+                if B[i][j]:
+                    Q.append(B[i][j])
+                    B[i][j] = 0  # Q에 넣은 블록은 0으로 바꿔주기
+            merge(0, j, 1, 0)   # row 인덱스 1씩 증가하면서 아래쪽 블록들을 합침
     # 아래로 이동
     elif dir == 1:
         for j in range(N):
             for i in range(N-1, -1, -1):
-                get(i, j)
+                if B[i][j]:
+                    Q.append(B[i][j])
+                    B[i][j] = 0
             merge(N-1, j, -1, 0)    # row 인덱스 1씩 감소하면서 위쪽 블록들을 합침
     # 오른쪽으로 이동
     elif dir == 2:
         for i in range(N):
             for j in range(N):
-                get(i, j)
+                if B[i][j]:
+                    Q.append(B[i][j])
+                    B[i][j] = 0
             merge(i, 0, 0, 1)     # column 인덱스 증가 오른쪽으로 이동하며 블록 합침
     # 왼쪽으로 이동
     elif dir == 3:
         for i in range(N):
             for j in range(N-1, -1, -1):
-                get(i, j)
+                if B[i][j]:
+                    Q.append(B[i][j])
+                    B[i][j] = 0
             merge(i, N-1, 0, -1)    # column 인덱스 감소 왼쪽으로 이동하며 블록 합침
 
 def dfs(depth):
