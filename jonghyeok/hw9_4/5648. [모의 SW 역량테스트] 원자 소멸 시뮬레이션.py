@@ -8,7 +8,7 @@ for tc in range(int(input())):
         q.append((x, y, d, k))
     #dict()에 [x][y]=[d, k]
     res = 0
-    for i in range(2003):
+    for i in range(4002):
         a={}
         while q:
             x, y, d, k = q.popleft()
