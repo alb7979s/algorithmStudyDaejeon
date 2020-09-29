@@ -46,11 +46,6 @@ void input()
 		}
 	}
 
-	/*for (int i = 0; i < 3; i++)
-	{
-		state[i] = 0 < (1 & ((magnet[i] >> 2) ^ (magnet[i + 1] >> 6)));
-	}*/
-
 	for (int i = 0; i < K; i++)
 	{
 		int n, dir;
@@ -90,7 +85,7 @@ void solve()
 	}
 }
 
-int main(int main(int argc, char** argv))
+int main(int argc, char** argv)
 {
     int T;
 	scanf("%d", &T);

@@ -72,7 +72,7 @@ void solve()
 	}
 }
 
-int main(int main(int argc, char** argv))
+int main(int argc, char** argv)
 {
     int T;
 	scanf("%d", &T);

@@ -9,9 +9,6 @@ const int MAX = 10;
 const int A = 0;
 const int B = 1;
 
-int dx[5] = { 0, 0, 1, 0, -1 }; // 상하좌우
-int dy[5] = { 0, -1, 0, 1, 0 };
-
 struct BC
 {
 	int idx;
@@ -154,7 +151,7 @@ void solve()
 	}
 }
 
-int main(int main(int argc, char** argv))
+int main(int argc, char** argv)
 {
     int T;
 	scanf("%d", &T);
