@@ -1,11 +1,16 @@
-class UnionFind:
-    def __init__(self, n):
-        self.parent = [i for i in range(n+1)]
-    def find(self, u):
-        if self.parent[u] == u: return u
-        self.parent[u] = self.find(self.parent[u])
-        return self.parent[u]
-    def union(self, u, v):
-        u = self.find(u)
-        v = self.find(v)
-        self.parent[u] = v
+from collections import*
+n=int(input())
+a=list(map(int,input().split()))
+q=deque()
+for i in range(n):
+    q.append((a[i],i+1))
+while 1:
+    x, idx = q.popleft()
+    print(idx, end=' ')
+    if not q: break
+    if x<0:
+        for i in range(abs(x)):
+            q.appendleft(q.pop())
+    else:
+        for i in range(x-1):
+            q.append(q.popleft())
