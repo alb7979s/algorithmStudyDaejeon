@@ -8,7 +8,6 @@ loc = [[(-1, 1), (1, 1), (-1, 0), (1, 0), (-2, 0), (2, 0), (-1, -1), (1, -1), (0
 
 def spread(x, y, d, sand):
     global board, res
-    #첨엔 d 나눠서 생각할라 했는데 어느 방향이든 상대적인 위치 같네유?
     staticSand = sand
     for i in range(9):
         dx, dy = loc[d][i]
