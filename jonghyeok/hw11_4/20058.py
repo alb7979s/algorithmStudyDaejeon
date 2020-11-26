@@ -1,45 +1,53 @@
 from sys import*
 input=stdin.readline
 from collections import*
-
-dd = [(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1)] #위부터 시계방향
-n,M,K=map(int,input().split())
-q=deque()
-for i in range(M):
-    x, y, m, s, d = map(int,input().split())            #속력은 건드리면 안됨, 나중에 합을 나누는 연산에 쓰임
-    q.append((x-1, y-1, m, s, d))
-for i in range(K):
-    visit = {}
+def bfs(x, y):
+    global res
+    visit[x][y]=1
+    res += board[x][y]
+    cnt = 1
+    q=deque()
+    q.append((x, y))
     while q:
-        x, y, m, s, d = q.popleft()
-        dx, dy = dd[d]
-        #음수 나머지 연산 신경쓰이니 n*250해서 양수로 바꿔줌
-        x, y = (n*250+x+dx*s)%n, (n*250+y+dy*s)%n       #음수로 갈 수 있으니 n만큼 더해서 속력만큼 가고 n나머지
-        if (x, y) not in visit:
-            visit[(x, y)] = [m, s, d, 1]                #질량, 속력, 방향 홀/짝, 개수
-        else:
-            visit[(x, y)][0] += m
-            visit[(x, y)][1] += s
-            if visit[(x, y)][2]%2 != d%2: visit[(x, y)][2] = 8        #다른 경우만 8로 처리
-            visit[(x, y)][3] += 1
-    for k, v in visit.items():
-        x, y = k
-        m, s, d, cnt = v
-        #두개이상 합쳐진 곳이면 4등분
-        if cnt >= 2:
-            m = int(m/5)
-            if m == 0: continue
-            s = int(s/cnt)
-            if d!=8:    #0, 2, 4, 6
-                for d in [0, 2, 4, 6]:
-                    q.append((x, y, m, s, d))
-            else:       #1, 3, 5, 7
-                for d in [1, 3, 5, 7]:
-                    q.append((x, y, m, s, d))
-        else:
-            q.append((x, y, m, s, d))
+        x, y = q.popleft()
+        for dx, dy in [(0, 1), (0, -1), (-1, 0), (1, 0)]:
+            nx, ny = x+dx, y+dy
+            if nx<0 or ny<0 or nx>n-1 or ny>n-1 or visit[nx][ny] or not board[nx][ny]: continue
+            res += board[nx][ny]
+            visit[nx][ny]=1
+            cnt += 1
+            q.append((nx, ny))
+    return cnt
+N, K = map(int,input().split())
+n = 1 << N
+board = []
+for i in range(n):
+    board.append(list(map(int,input().split())))
+L = list(map(int,input().split()))
+for l in L:
+    l = 1<<l
+    zeros = [[1]*(n+2) for _ in range(n+2)]
+    for sx in range(0, n, l):
+        for sy in range(0, n, l):
+            #여기서 90도 회전 해줘야함
+            temp = [[0]*l for _ in range(l)]
+            for i in range(l):
+                for j in range(l):
+                    temp[j][l-i-1] = board[i+sx][j+sy]
+            for i in range(l):
+                for j in range(l):
+                    board[sx+i][sy+j] = temp[i][j]
+                    if temp[i][j]: zeros[sx+i+1][sy+j+1]=0
+    #n * n 돌면서 주위 0이하 두개이상인곳 체크
+    for i in range(n):
+        for j in range(n):
+            if board[i][j] and (zeros[i][j+1] + zeros[i+1][j+2] + zeros[i+1][j] + zeros[i+2][j+1])>=2: board[i][j]-=1
+#마지막 n*n 돌면서 BFS cnt 가장 큰거 구하고(그냥 전역변수로 구해도 됨), 전역변수로 sum 구하기
+visit = [[0]*n for _ in range(n)]
 res = 0
-while q:
-    x, y, m, s, d = q.popleft()
-    res += m
-print(res)
+cnt = 0
+for i in range(n):
+    for j in range(n):
+        if not visit[i][j] and board[i][j]:
+            cnt = max(cnt, bfs(i, j))
+print(res, cnt, sep='\n')
