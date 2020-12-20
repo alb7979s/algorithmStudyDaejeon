@@ -5,12 +5,9 @@ input = sys.stdin.readline
 N = int(input())
 cnt = 0
 for _ in range(N):
-    words = input()
+    words = input().strip()
     stack = []
     for word in words:
-        # print(word)
-        if word == '\n':
-            break
         if not stack:
             stack.append(word)
         else:

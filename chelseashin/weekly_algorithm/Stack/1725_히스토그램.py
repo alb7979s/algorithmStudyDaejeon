@@ -15,6 +15,7 @@ L = [int(input()) for _ in range(N)] + [0]
 
 # O(N) 풀이 - 스택으로 풀기!
 # 참고 - https://private-space.tistory.com/12
+# 참고2 - https://greeksharifa.github.io/ps/2018/07/07/PS-06549/
 # cursor : 현재 x좌표 값(이후 (i-cursor)을 이용해서 가로길이 구함)
 # stack : 튜플(x좌표 값, 높이)를 저장하는 스택
 ans = 0

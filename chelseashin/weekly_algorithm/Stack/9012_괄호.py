@@ -4,13 +4,10 @@ input = sys.stdin.readline
 
 N = int(input())
 for _ in range(N):
-    temp = list(input())
+    temp = list(input().strip())
     # print(len(temp), temp)
     stack = []
     for t in temp:
-        if t == "\n":
-            continue
-        # print(t)
         if not stack:
             stack.append(t)
         else:   # 스택에 값 있을 때
